@@ -2,7 +2,7 @@
 
 Naman - Custom App
 
-bench get-app https://github.com/Inshasis/naman.git
+bench get-app https://github.com/Inshasis/naman.git <br>
 bench --site <site_name> install-app naman
 bench migrate
 becnh restart
