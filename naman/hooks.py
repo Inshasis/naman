@@ -5,6 +5,32 @@ app_description = "Naman - Custom App"
 app_email = "hidayat@inshasis.com"
 app_license = "mit"
 
+
+#Fixture
+fixtures = [
+    {"dt": "Role", "filters": [
+        [
+            "name",
+            "in",
+            {
+				"Dept Requestor",
+                "⁠IT Users",
+                "⁠Dept Incharge"
+			}
+        ]
+    ]},
+    {"dt": "Workflow", "filters": [
+        [
+            "name",
+            "in",
+            {
+				"Request Management Workflow"
+			}
+        ]
+    ]},
+]
+
+# bench export-fixtures --app naman
 # Apps
 # ------------------
 
