@@ -3,11 +3,12 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils.pdf import get_pdf
 
 
 class RequestManagement(Document):
     # pass
-    def validate(self):
+    def after_insert(self):
         if self.docstatus == 0 and self.status == "Draft":
             self.notify_incharge()
             self.notify_requester()
@@ -50,12 +51,12 @@ class RequestManagement(Document):
                     font-weight: bold;
                     font-size: 16px;
                     text-align: center;"><a href="{doc_url}" class="button">Open Document</a></button>
+                <p>The request details are attached as a PDF for your reference.</p>
             </div>
             <div class="footer">
                 <p>This is an automated email. Please do not reply directly to this message.</p>
             </div>
         </div>
-        
         """.format(
             incharge_name=self.incharge_name or "Team Member",
             request_id=self.name,
@@ -63,18 +64,25 @@ class RequestManagement(Document):
             doc_url=doc_url
         )
 
-        # Send email
+        # Generate PDF from the "RM Print" Print Format
+        pdf_data = get_pdf(frappe.get_print(
+            doctype="Request Management",
+            name=self.name,
+            print_format="RM"
+        ))
+
+        # Prepare attachment
+        attachments = [{
+            "fname": f"{self.name}_RM.pdf",
+            "fcontent": pdf_data
+        }]
+
+        # Send email with attachment
         frappe.sendmail(
             recipients=[self.incharge_email],
             subject="New Request Notification",
-            message=html_message
-        )
-
-    def notify_requester(self):
-        frappe.sendmail(
-            recipients=[self.email],
-            subject="Request Submitted",
-            message=f"Your request (ID: {self.name}) has been submitted successfully and is in Pending status."
+            message=html_message,
+            attachments=attachments
         )
 
     def notify_it_team(self):
@@ -101,6 +109,13 @@ class RequestManagement(Document):
                 message=f"Request (ID: {self.name}) has been approved and assigned to IT team."
             )
 
+    def notify_requester(self):
+        frappe.sendmail(
+            recipients=[self.email],
+            subject="Requester Email",
+            message=f"Request (ID: {self.name}) has Be Created.."
+        )
+    
     def notify_rejected(self):
         frappe.sendmail(
             recipients=[self.email],

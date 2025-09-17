@@ -204,3 +204,29 @@ frappe.ui.form.on('Request Management', {
         frm.trigger('refresh');
     }
 });
+
+frappe.ui.form.on('Request Item', {
+    to_date: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (row.to_date && row.from_date) {
+            if (row.to_date < row.from_date) {
+                frappe.msgprint(__('To Date cannot be earlier than From Date'));
+                frappe.model.set_value(cdt, cdn, 'to_date', null);
+            }
+        }
+    },
+    qty: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (row.qty > 100) {
+            frappe.msgprint(__('Quantity cannot exceed 100'));
+            frappe.model.set_value(cdt, cdn, 'qty', null);
+        }
+    },
+    remark: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (row.remark && row.remark.length > 1000) {
+            frappe.msgprint(__('Remark cannot exceed 1000 characters'));
+            frappe.model.set_value(cdt, cdn, 'remark', row.remark.substring(0, 1000));
+        }
+    }
+});
