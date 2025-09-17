@@ -7,6 +7,8 @@
  "field_order": [
   "section_break_gurh",
   "naming_series",
+  "column_break_vmac",
+  "date",
   "section_break_pdcz",
   "requesting_department",
   "column_break_gsmd",
@@ -64,7 +66,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "allow_bulk_edit": 1,
    "allow_on_submit": 1,
    "fieldname": "request_item",
    "fieldtype": "Table",
@@ -90,6 +91,7 @@
   {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
+   "hidden": 1,
    "label": "Remarks"
   },
   {
@@ -164,12 +166,22 @@
    "fieldname": "section_break_gurh",
    "fieldtype": "Section Break",
    "hidden": 1
+  },
+  {
+   "fieldname": "column_break_vmac",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-11 19:04:03.207503",
+ "modified": "2025-09-17 10:08:48.147515",
  "modified_by": "Administrator",
  "module": "Naman",
  "name": "Request Management",

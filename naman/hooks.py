@@ -28,6 +28,18 @@ fixtures = [
 			}
         ]
     ]},
+    {"dt": "Custom DocPerm", "filters": [
+        [
+            "role",
+            "in",
+            {
+				"Dept Requestor",
+                "⁠IT Users",
+                "⁠Dept Incharge"
+
+			}
+        ]
+    ]}
 ]
 
 # bench export-fixtures --app naman
